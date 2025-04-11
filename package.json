@@ -1,0 +1,30 @@
+{
+	"name": "latest-posts",
+	"version": "0.1.0",
+	"description": "Example block scaffolded with Create Block tool.",
+	"author": "The WordPress Contributors",
+	"license": "GPL-2.0-or-later",
+	"main": "build/index.js",
+	"scripts": {
+		"build": "wp-scripts build --webpack-copy-php --blocks-manifest",
+		"format": "wp-scripts format",
+		"lint:css": "wp-scripts lint-style",
+		"lint:js": "wp-scripts lint-js",
+		"packages-update": "wp-scripts packages-update",
+		"plugin-zip": "wp-scripts plugin-zip",
+		"start": "wp-scripts start --webpack-copy-php --blocks-manifest"
+	},
+	"prettier": "@wordpress/prettier-config",
+	"devDependencies": {
+		"@prettier/plugin-php": "^0.22.4",
+		"@wordpress/eslint-plugin": "^22.7.0",
+		"@wordpress/prettier-config": "^4.21.0",
+		"@wordpress/scripts": "^30.14.1",
+		"prettier": "^3.5.3"
+	},
+	"dependencies": {
+		"@wordpress/data": "^10.21.0",
+		"@wordpress/date": "^5.21.0",
+		"@wordpress/element": "^6.21.0"
+	}
+}

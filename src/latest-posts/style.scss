@@ -1,0 +1,23 @@
+ul.wp-block-create-block-latest-posts{
+	list-style: none;
+	padding: none;
+	margin: none;
+	display: grid;
+	grid-template-columns: repeat(3,1fr);
+	gap: 30px;
+	li{
+		img{
+			margin-bottom:10px;
+
+		}
+		h5{
+			font-size: 20px;
+			margin: 0 0 5px;
+			line-height: 1.4;
+			a{
+				color: #000;
+			}
+		}
+	}
+
+}
