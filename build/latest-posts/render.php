@@ -18,16 +18,26 @@ $recent_posts = get_posts( $args );
 
     <?php foreach ( $recent_posts as $post ) : ?>
     <li>
+        <div class="post-thumbnail">
+
+
+            <?php if ( ! empty( $attributes['displayImage'] ) && has_post_thumbnail( $post ) ) : ?>
+            <div class="post-thumbnail">
+                <?php echo get_the_post_thumbnail( $post, 'thumbnail' ); ?>
+            </div>
+            <?php endif; ?>
+        </div>
         <h5>
             <a href="<?php echo esc_url( get_permalink( $post ) ); ?>">
                 <?php echo esc_html( get_the_title( $post ) ); ?>
             </a>
         </h5>
+        <time datetime="<?php echo esc_attr( get_the_date( 'c', $post ) ); ?>">
+            <?php echo esc_html( get_the_date( '', $post ) ); ?>
+        </time>
 
         <?php if ( ! empty( $attributes['displayImage'] ) && has_post_thumbnail( $post ) ) : ?>
-        <div class="post-thumbnail">
-            <?php echo get_the_post_thumbnail( $post, 'thumbnail' ); ?>
-        </div>
+
         <?php endif; ?>
         <p>
             <?php echo esc_html( get_the_excerpt( $post ) ); ?>

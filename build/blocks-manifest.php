@@ -30,6 +30,10 @@ return array(
 			'displayImage' => array(
 				'type' => 'boolean',
 				'default' => true
+			),
+			'order' => array(
+				'type' => 'string',
+				'default' => 'desc'
 			)
 		)
 	)
