@@ -29,6 +29,10 @@
     "order": {
       "type": "string",
       "default": "desc"
+    },
+    "orderBy": {
+      "type": "string",
+      "default": "date"
     }
   }
 }

@@ -7,6 +7,8 @@
 $args = array(
     'posts_per_page' => $attributes['numberOfPosts'],
     'post_status'    => 'publish',
+    'order' => $attributes['order'],
+    'orderby' => $attributes['orderBy']
 );
 
 // Get the recent posts

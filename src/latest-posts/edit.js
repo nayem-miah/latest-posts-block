@@ -6,15 +6,17 @@ import { RawHTML } from '@wordpress/element';
 import { PanelBody, ToggleControl, QueryControls } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
 export default function Edit({ attributes, setAttributes }) {
-	const { numberOfPosts, displayImage, order } = attributes;
+	const { numberOfPosts, displayImage, order, orderBy } = attributes;
 	const posts = useSelect(
 		(select) => {
 			return select('core').getEntityRecords('postType', 'post', {
 				per_page: numberOfPosts,
 				_embed: true,
+				order,
+				orderby: orderBy
 			});
 		},
-		[numberOfPosts]
+		[numberOfPosts, order, orderBy]
 	);
 
 	const HandleDisplayFeatureImage = (value) => {
@@ -34,6 +36,14 @@ export default function Edit({ attributes, setAttributes }) {
 		})
 	};
 
+	const handleOrderBy = (value) => {
+		setAttributes({
+			 orderBy: value
+		 })
+	}
+
+	console.log('order............',order)
+
 	return (
 		<>
 			<InspectorControls>
@@ -49,10 +59,10 @@ export default function Edit({ attributes, setAttributes }) {
 						onNumberOfItemsChange={onNumberOfItemsChange}
 						maxItems={10}
 						minItems={2}
-						orderBy='date'
-						onOrderByChange={(value) => console.log('by.....',value)}
-						order=''
-						onOrderChange={(handleOrder)}
+						orderBy={orderBy}
+						onOrderByChange={handleOrderBy}
+						order={order}
+						onOrderChange={handleOrder}
 					/>
 				</PanelBody>
 			</InspectorControls>

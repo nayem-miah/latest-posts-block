@@ -34,6 +34,10 @@ return array(
 			'order' => array(
 				'type' => 'string',
 				'default' => 'desc'
+			),
+			'orderBy' => array(
+				'type' => 'string',
+				'default' => 'date'
 			)
 		)
 	)

@@ -8,7 +8,7 @@
   \*************************************/
 /***/ ((module) => {
 
-module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"create-block/latest-posts","version":"0.1.0","title":"Latest Posts","category":"text","icon":"admin-post","description":"Example block scaffolded with Create Block tool.","example":{},"supports":{"html":false},"textdomain":"latest-posts","editorScript":"file:./index.js","editorStyle":"file:./index.css","style":"file:./style-index.css","render":"file:./render.php","viewScript":"file:./view.js","attributes":{"numberOfPosts":{"type":"number","default":6},"displayImage":{"type":"boolean","default":true},"order":{"type":"string","default":"desc"}}}');
+module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"create-block/latest-posts","version":"0.1.0","title":"Latest Posts","category":"text","icon":"admin-post","description":"Example block scaffolded with Create Block tool.","example":{},"supports":{"html":false},"textdomain":"latest-posts","editorScript":"file:./index.js","editorStyle":"file:./index.css","style":"file:./style-index.css","render":"file:./render.php","viewScript":"file:./view.js","attributes":{"numberOfPosts":{"type":"number","default":6},"displayImage":{"type":"boolean","default":true},"order":{"type":"string","default":"desc"},"orderBy":{"type":"string","default":"date"}}}');
 
 /***/ }),
 
@@ -52,14 +52,17 @@ function Edit({
   const {
     numberOfPosts,
     displayImage,
-    order
+    order,
+    orderBy
   } = attributes;
   const posts = (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_1__.useSelect)(select => {
     return select('core').getEntityRecords('postType', 'post', {
       per_page: numberOfPosts,
-      _embed: true
+      _embed: true,
+      order,
+      orderby: orderBy
     });
-  }, [numberOfPosts]);
+  }, [numberOfPosts, order, orderBy]);
   const HandleDisplayFeatureImage = value => {
     setAttributes({
       displayImage: value
@@ -75,6 +78,12 @@ function Edit({
       order: value
     });
   };
+  const handleOrderBy = value => {
+    setAttributes({
+      orderBy: value
+    });
+  };
+  console.log('order............', order);
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.Fragment, {
     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_0__.InspectorControls, {
       children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)(_wordpress_components__WEBPACK_IMPORTED_MODULE_5__.PanelBody, {
@@ -87,9 +96,9 @@ function Edit({
           onNumberOfItemsChange: onNumberOfItemsChange,
           maxItems: 10,
           minItems: 2,
-          orderBy: "date",
-          onOrderByChange: value => console.log('by.....', value),
-          order: "",
+          orderBy: orderBy,
+          onOrderByChange: handleOrderBy,
+          order: order,
           onOrderChange: handleOrder
         })]
       })
