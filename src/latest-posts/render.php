@@ -11,6 +11,10 @@ $args = array(
     'orderby' => $attributes['orderBy']
 );
 
+if(isset($attributes['categories'])){
+    $args['category__in'] = array_column($attributes['categories'], 'id');  // will give like this [3, 7]
+}
+
 // Get the recent posts
 $recent_posts = get_posts( $args );
 ?>

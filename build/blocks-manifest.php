@@ -38,6 +38,12 @@ return array(
 			'orderBy' => array(
 				'type' => 'string',
 				'default' => 'date'
+			),
+			'categories' => array(
+				'type' => 'array',
+				'items' => array(
+					'type' => 'object'
+				)
 			)
 		)
 	)

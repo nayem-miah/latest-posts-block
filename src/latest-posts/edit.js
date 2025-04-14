@@ -6,18 +6,27 @@ import { RawHTML } from '@wordpress/element';
 import { PanelBody, ToggleControl, QueryControls } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
 export default function Edit({ attributes, setAttributes }) {
-	const { numberOfPosts, displayImage, order, orderBy } = attributes;
+	const { numberOfPosts, displayImage, order, orderBy, categories } =
+		attributes;
+	const catIDs = categories?.map((cat) => cat.id);
 	const posts = useSelect(
 		(select) => {
 			return select('core').getEntityRecords('postType', 'post', {
 				per_page: numberOfPosts,
 				_embed: true,
 				order,
-				orderby: orderBy
+				orderby: orderBy,
+				categories: catIDs,
 			});
 		},
-		[numberOfPosts, order, orderBy]
+		[numberOfPosts, order, orderBy, catIDs]
 	);
+
+	const allCats = useSelect((select) => {
+		return select('core').getEntityRecords('taxonomy', 'category', {
+			per_page: -1,
+		});
+	}, []);
 
 	const HandleDisplayFeatureImage = (value) => {
 		setAttributes({
@@ -32,17 +41,37 @@ export default function Edit({ attributes, setAttributes }) {
 	};
 	const handleOrder = (value) => {
 		setAttributes({
-			order: value
-		})
+			order: value,
+		});
 	};
 
 	const handleOrderBy = (value) => {
 		setAttributes({
-			 orderBy: value
-		 })
+			orderBy: value,
+		});
+	};
+	const catSuggestions = {};
+	if (allCats) {
+		for (let i = 0; i < allCats.length; i++) {
+			const cat = allCats[i];
+			catSuggestions[cat.name] = cat; // key is name of the cat object and value is the cat object
+		}
 	}
 
-	console.log('order............',order)
+	const handleCategoryChange = (values) => {
+		const hasNoSuggestion = values.some(
+			(value) => typeof value === 'string' && !catSuggestions[value] //.some() is an array method that returns true if at least one item in the array meets the condition.
+		);
+
+		if (hasNoSuggestion) return;
+		const updatedCats = values.map((value) => {
+			return typeof value === 'string' ? catSuggestions[value] : value;
+		});
+
+		setAttributes({
+			categories: updatedCats,
+		});
+	};
 
 	return (
 		<>
@@ -63,6 +92,11 @@ export default function Edit({ attributes, setAttributes }) {
 						onOrderByChange={handleOrderBy}
 						order={order}
 						onOrderChange={handleOrder}
+						categoriesList={allCats}
+						categorySuggestions={catSuggestions}
+						selectedCategories={categories}
+						selectedCategoryId={1}
+						onCategoryChange={handleCategoryChange}
 					/>
 				</PanelBody>
 			</InspectorControls>
